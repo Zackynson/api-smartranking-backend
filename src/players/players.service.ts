@@ -21,7 +21,7 @@ export class PlayersService {
   private players: Player[] = [];
 
   constructor(
-    @InjectModel('player') private readonly playerModel: Model<Player>,
+    @InjectModel('Player') private readonly playerModel: Model<Player>,
   ) {}
 
   async create(createPlayerDTO: CreatePlayerDTO): Promise<void> {
