@@ -7,7 +7,7 @@ export class CreatePlayerValidationPipe implements PipeTransform {
   transform(value: CreatePlayerDTO) {
     const schema = Joi.object({
       name: Joi.string().trim().required(),
-      email: Joi.string().trim().required(),
+      email: Joi.string().email().trim().required(),
       phoneNumber: Joi.string().trim().required(),
     }).required();
 
