@@ -19,7 +19,7 @@ export class PlayerIdParamValidationPipe implements PipeTransform {
     });
 
     if (result.error) {
-      throw new BadRequestException(result.error.message);
+      throw new BadRequestException('Invalid Player ID');
     }
 
     return result.value;

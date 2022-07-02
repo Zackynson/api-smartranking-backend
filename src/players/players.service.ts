@@ -52,4 +52,14 @@ export class PlayersService {
   async find(): Promise<Player[]> {
     return this.players;
   }
+
+  async findById(id: string): Promise<Player> {
+    const foundPlayerIndex = this.players.find((p) => p.id === id);
+
+    if (!foundPlayerIndex) {
+      throw new NotFoundException('Player not found');
+    }
+
+    return foundPlayerIndex;
+  }
 }

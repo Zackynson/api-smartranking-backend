@@ -33,4 +33,13 @@ export class PlayersController {
 
     return players;
   }
+
+  @Get(':id')
+  async findById(
+    @Param('id', PlayerIdParamValidationPipe) id: string,
+  ): Promise<Player> {
+    const player = await this.playersService.findById(id);
+
+    return player;
+  }
 }
