@@ -1,7 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { v4 } from 'uuid';
+
 import { CreatePlayerDTO } from './dtos/create-player-dto';
 import { Player } from './entities/Player';
-import { v4 } from 'uuid';
 
 @Injectable()
 export class PlayersService {
