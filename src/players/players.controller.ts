@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { CreatePlayerDTO } from './dtos/create-player-dto';
 import { Player } from './entities/Player';
 import { PlayersService } from './players.service';
@@ -41,5 +49,12 @@ export class PlayersController {
     const player = await this.playersService.findById(id);
 
     return player;
+  }
+
+  @Delete(':id')
+  async deleteById(
+    @Param('id', PlayerIdParamValidationPipe) id: string,
+  ): Promise<void> {
+    await this.playersService.deleteById(id);
   }
 }

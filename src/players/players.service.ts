@@ -54,12 +54,22 @@ export class PlayersService {
   }
 
   async findById(id: string): Promise<Player> {
-    const foundPlayerIndex = this.players.find((p) => p.id === id);
+    const foundPlayer = this.players.find((p) => p.id === id);
 
-    if (!foundPlayerIndex) {
+    if (!foundPlayer) {
       throw new NotFoundException('Player not found');
     }
 
-    return foundPlayerIndex;
+    return foundPlayer;
+  }
+
+  async deleteById(id: string): Promise<void> {
+    const foundPlayerIndex = this.players.findIndex((p) => p.id === id);
+
+    if (foundPlayerIndex < 0) {
+      throw new NotFoundException('Player not found');
+    }
+
+    this.players.splice(foundPlayerIndex, 1);
   }
 }
