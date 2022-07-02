@@ -1,16 +1,11 @@
 import { BadRequestException, PipeTransform } from '@nestjs/common';
 
 import * as Joi from 'joi';
+import * as mognoose from 'mongoose';
 
 export class PlayerIdParamValidationPipe implements PipeTransform {
   transform(value: string) {
-    /** readonly name: string;
-        readonly phoneNumber: string;
-        readonly avatarUrl: string;
-        readonly ranking: string;
-        readonly rankingPosition: number; 
-      */
-    const schema = Joi.string().uuid().required();
+    const schema = Joi.string().trim().required();
 
     const result = schema.validate(value, {
       allowUnknown: true,
@@ -18,7 +13,7 @@ export class PlayerIdParamValidationPipe implements PipeTransform {
       convert: false,
     });
 
-    if (result.error) {
+    if (result.error || !mognoose.isObjectIdOrHexString(value)) {
       throw new BadRequestException('Invalid Player ID');
     }
 
