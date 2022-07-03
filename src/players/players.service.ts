@@ -18,8 +18,6 @@ type UpdateParams = {
 
 @Injectable()
 export class PlayersService {
-  private players: Player[] = [];
-
   constructor(
     @InjectModel('Player') private readonly playerModel: Model<Player>,
   ) {}
