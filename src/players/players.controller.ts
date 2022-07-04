@@ -16,7 +16,8 @@ import { PlayersService } from './players.service';
 
 import { CreatePlayerValidationPipe } from './pipes/create-player-validation.pipe';
 import { UpdatePlayerDataValidationPipe } from './pipes/update-player-data-validation.pipe';
-import { PlayerIdParamValidationPipe } from './pipes/player-id-param-validation.pipe';
+
+import { IdParamValidationPipe } from 'src/common/pipes/id-param-validation.pipe';
 
 @Controller('players')
 export class PlayersController {
@@ -31,7 +32,7 @@ export class PlayersController {
 
   @Put(':id')
   async update(
-    @Param('id', PlayerIdParamValidationPipe) id: string,
+    @Param('id', new IdParamValidationPipe('player')) id: string,
     @Body(UpdatePlayerDataValidationPipe) updatePlayerDTO: UpdatePlayerDTO,
   ): Promise<void> {
     console.log(id);
@@ -47,7 +48,7 @@ export class PlayersController {
 
   @Get(':id')
   async findById(
-    @Param('id', PlayerIdParamValidationPipe) id: string,
+    @Param('id', new IdParamValidationPipe('player')) id: string,
   ): Promise<Player> {
     const player = await this.playersService.findById(id);
 
@@ -56,7 +57,7 @@ export class PlayersController {
 
   @Delete(':id')
   async deleteById(
-    @Param('id', PlayerIdParamValidationPipe) id: string,
+    @Param('id', new IdParamValidationPipe('player')) id: string,
   ): Promise<void> {
     await this.playersService.deleteById(id);
   }

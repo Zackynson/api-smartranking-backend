@@ -3,7 +3,9 @@ import { BadRequestException, PipeTransform } from '@nestjs/common';
 import * as Joi from 'joi';
 import * as mognoose from 'mongoose';
 
-export class CategoryIdParamValidationPipe implements PipeTransform {
+export class IdParamValidationPipe implements PipeTransform {
+  constructor(private readonly entityName: string) {}
+
   transform(value: string) {
     const schema = Joi.string().trim().required();
 
@@ -14,7 +16,7 @@ export class CategoryIdParamValidationPipe implements PipeTransform {
     });
 
     if (result.error || !mognoose.isObjectIdOrHexString(value)) {
-      throw new BadRequestException('Invalid Category ID');
+      throw new BadRequestException('Invalid ' + this.entityName + ' ID');
     }
 
     return result.value;

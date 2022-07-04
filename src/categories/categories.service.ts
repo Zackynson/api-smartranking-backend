@@ -1,6 +1,12 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { PlayersService } from 'src/players/players.service';
 import { CreateCategoryDTO } from './dtos/create-category-dto';
 import { UpdateCategoryDTO } from './dtos/update-category-dto';
 import { Category } from './entities/category';
@@ -9,10 +15,16 @@ type UpdateParams = {
   id: string;
   data: UpdateCategoryDTO;
 };
+
+type AddPlayerParams = {
+  categoryId: string;
+  playerId: string;
+};
 @Injectable()
 export class CategoriesService {
   constructor(
     @InjectModel('Category') private readonly categoryModel: Model<Category>,
+    private readonly playersService: PlayersService,
   ) {}
 
   async list(): Promise<Category[]> {
@@ -20,7 +32,16 @@ export class CategoriesService {
   }
 
   async findById(id: string): Promise<Category> {
-    const category = await this.categoryModel.findById(id);
+    const populatedFields = {
+      _id: 1,
+      email: 1,
+      name: 1,
+      phoneNumber: 1,
+    };
+
+    const category = await this.categoryModel
+      .findById(id)
+      .populate('players', populatedFields);
 
     if (!category?._id) {
       throw new NotFoundException('Category not found');
@@ -56,5 +77,24 @@ export class CategoriesService {
     new Logger(CategoriesService.name).log({ data });
 
     await category.update({ ...data });
+  }
+
+  async addPlayer({ categoryId, playerId }: AddPlayerParams): Promise<void> {
+    const category = await this.categoryModel.findById(categoryId);
+    if (!category?._id) {
+      throw new NotFoundException('Category not found');
+    }
+
+    const player = await this.playersService.findById(playerId);
+
+    new Logger(CategoriesService.name).log({ category, player });
+
+    if (category.players.includes(playerId)) {
+      throw new ForbiddenException('Player is already in this category');
+    }
+
+    await category.update({
+      $set: { players: [...category.players, playerId] },
+    });
   }
 }
