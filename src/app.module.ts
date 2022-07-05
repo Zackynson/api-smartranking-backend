@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
-import { PlayersModule } from './players/players.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ConfigModule } from '@nestjs/config';
-import { CategoriesModule } from './categories/categories.module';
+import { JogadoresModule } from './jogadores/jogadores.module';
+import { CategoriasModule } from './categorias/categorias.module';
+import { DesafiosModule } from './desafios/desafios.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
-    MongooseModule.forRoot(process.env.MONGO_URL),
-    PlayersModule,
-    CategoriesModule,
-  ],
+    MongooseModule.forRoot('mongodb+srv://novo_user:fLsiwhvTu6jnQp1D@cluster0.zwp5f.mongodb.net/admin?authSource=admin&replicaSet=atlas-w3viev-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true',
+    { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false }),
+    JogadoresModule,
+    CategoriasModule,
+    DesafiosModule],
   controllers: [],
   providers: [],
 })
