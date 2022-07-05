@@ -6,7 +6,7 @@ import { DesafiosModule } from './desafios/desafios.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb+srv://novo_user:fLsiwhvTu6jnQp1D@cluster0.zwp5f.mongodb.net/admin?authSource=admin&replicaSet=atlas-w3viev-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true',
+    MongooseModule.forRoot('mongodb+srv://novo_user:fLsiwhvTu6jnQp1D@cluster0.zwp5f.mongodb.net/smartranking?authSource=admin&replicaSet=atlas-w3viev-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true',
     { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false }),
     JogadoresModule,
     CategoriasModule,
